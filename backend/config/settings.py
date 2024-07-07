@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import environ
 import os
 
+from datetime import timedelta
+
 env = environ.Env(DEBUG=(bool, False))
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -33,13 +35,18 @@ ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 # Application definition
 
 INSTALLED_APPS = [
+    # Django
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Third party
     'rest_framework',
+    'djoser',
+    'rest_framework_simplejwt.token_blacklist',
+    # Local
     'accounts',
 ]
 
@@ -132,3 +139,28 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 AUTH_USER_MODEL = "accounts.User"
+
+# Simple JWT
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('JWT',),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+}
+
+# djoser
+DJOSER = {
+    # required
+    'PASSWORD_RESET_CONFIRM_URL': '#/password-reset/{uid}/{token}',
+    'USERNAME_RESET_CONFIRM_URL': '#/username-reset/{uid}/{token}',
+    'ACTIVATION_URL': 'activate/{uid}/{token}',
+    # optional
+    'USER_CREATE_PASSWORD_RETYPE': True,
+    'SERIALIZERS': {},
+    'PERMISSIONS': {},
+}
