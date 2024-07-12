@@ -20,8 +20,8 @@ services:
     image: postgres:16
     volumes:
       - ./db:/var/lib/postgresql/data/
-    ports:
-      - 5432:5432
+    expose:
+      - 5432
     env_file:
       - ./backend/.env
     healthcheck:
@@ -29,6 +29,19 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  react:
+    container_name: twitter-clone-react
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/code
+    ports:
+      - 3000:3000
+    env_file:
+      - ./frontend/.env
+    command: npm start
 
 volumes:
   db:
