@@ -162,8 +162,8 @@ REST_AUTH = {
 }
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'twitter-clone-katsushika',
-    'DESCRIPTION': 'OpenAPI schema for twitter-clone-katsushika',
+    'TITLE': 'twitter-clone-drf',
+    'DESCRIPTION': 'OpenAPI schema for twitter-clone-drf',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
 }
